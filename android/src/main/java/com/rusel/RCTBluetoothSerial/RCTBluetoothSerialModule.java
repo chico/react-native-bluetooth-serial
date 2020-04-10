@@ -446,7 +446,11 @@ public class RCTBluetoothSerialModule extends ReactContextBaseJavaModule impleme
         params.putString("message", msg);
         sendEvent(CONN_FAILED, null);
         if (mConnectedPromise != null) {
-            mConnectedPromise.reject(new Exception(msg));
+            try {
+                mConnectedPromise.reject(new Exception(msg));
+            } catch (NullPointerException e) {
+                // TODO Ignore?
+            }
         }
         mConnectedPromise = null;
     }
